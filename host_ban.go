@@ -1,9 +1,9 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
-	"github.com/kataras/iris/core/errors"
 	"io/ioutil"
 	"os"
 	"runtime"

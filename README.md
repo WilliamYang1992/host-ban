@@ -4,10 +4,15 @@
 #### 兼容系统: Windows, MacOS, Linux  
 
 #### 使用方法:  
-增加规则:  
+*参数*:  
+-ip: 转发的 ip 地址, 不指定默认为 `0.0.0.0`  
+-host: host 地址, 如 `www.somesite.com`, 不需要带 http(s)://   
+-action: 可选值为 `add` 或者 `delete`, 分别代表增加或删除, 不指定默认为 `add`  
+  
+*增加规则*:  
 `host-ban -ip 0.0.0.0 -host www.somesite.com -action add`
   
-删除规则:  
+*删除规则*:  
 `host-ban -host www.somesite.com -action delete`
 
 #### 常用使用场景

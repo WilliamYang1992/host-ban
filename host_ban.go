@@ -10,6 +10,12 @@ import (
 	"strings"
 )
 
+const (
+	DefaultIP     = "0.0.0.0"
+	DefaultHost   = ""
+	DefaultAction = "add"
+)
+
 type HostWriter interface {
 	Write(ip, host, action string) error
 	Filename() string
@@ -104,10 +110,11 @@ func GetHostWriter() (hw HostWriter, err error) {
 }
 
 func main() {
-	var ip = flag.String("ip", "0.0.0.0", "ip addr to redirect, default is \"0.0.0.0\"")
-	var host = flag.String("host", "", "some host, eg: www.somesite.com")
-	var action = flag.String("action", "add", "add or delete, default is add")
+	var ip = flag.String("ip", DefaultIP, "ip addr to redirect, default is \"0.0.0.0\"")
+	var host = flag.String("host", DefaultHost, "some host, eg: www.somesite.com")
+	var action = flag.String("action", DefaultAction, "add or delete, default is add")
 	flag.Parse()
+	*action = strings.ToLower(*action)
 	if *action != "add" && *action != "delete" {
 		fmt.Println(fmt.Sprintf("action only can specified as \"add\" or \"delete\", not \"%s\"", *action))
 		return

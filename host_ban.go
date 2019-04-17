@@ -110,9 +110,9 @@ func GetHostWriter() (hw HostWriter, err error) {
 }
 
 func main() {
-	var ip = flag.String("ip", DefaultIP, "ip addr to redirect, default is \"0.0.0.0\"")
+	var ip = flag.String("ip", DefaultIP, "ip addr to redirect")
 	var host = flag.String("host", DefaultHost, "some host, eg: www.somesite.com")
-	var action = flag.String("action", DefaultAction, "add or delete, default is add")
+	var action = flag.String("action", DefaultAction, "add or delete")
 	flag.Parse()
 	*action = strings.ToLower(*action)
 	if *action != "add" && *action != "delete" {

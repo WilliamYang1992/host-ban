@@ -39,7 +39,7 @@ func (hw WindowsHostWriter) Filename() string {
 }
 
 func (hw DarwinHostWriter) Write(ip, host, action string) error {
-	filename := "/etc/hosts"
+	filename := hw.Filename()
 	separator := "\n"
 	err := Write(filename, separator, ip, host, action)
 	return err
@@ -51,7 +51,7 @@ func (hw DarwinHostWriter) Filename() string {
 }
 
 func (hw LinuxHostWriter) Write(ip, host, action string) error {
-	filename := "/etc/hosts"
+	filename := hw.Filename()
 	separator := "\n"
 	err := Write(filename, separator, ip, host, action)
 	return err
@@ -110,23 +110,27 @@ func GetHostWriter() (hw HostWriter, err error) {
 }
 
 func main() {
-	var ip = flag.String("ip", DefaultIP, "ip addr to redirect")
-	var host = flag.String("host", DefaultHost, "some host, eg: www.somesite.com")
-	var action = flag.String("action", DefaultAction, "add or delete")
+	var ip, host, action string
+	flag.StringVar(&ip, "ip", DefaultIP, "ip addr to redirect")
+	flag.StringVar(&ip, "i", DefaultIP, "ip addr to redirect (shortcut)")
+	flag.StringVar(&host, "host", DefaultHost, "some host, eg: www.somesite.com")
+	flag.StringVar(&host, "h", DefaultHost, "some host, eg: www.somesite.com (shortcut)")
+	flag.StringVar(&action, "action", DefaultAction, "add or delete")
+	flag.StringVar(&action, "a", DefaultAction, "add or delete (shortcut)")
 	flag.Parse()
-	*action = strings.ToLower(*action)
-	if *action != "add" && *action != "delete" {
-		fmt.Println(fmt.Sprintf("action only can specified as \"add\" or \"delete\", not \"%s\"", *action))
+
+	if action != "add" && action != "delete" {
+		fmt.Println(fmt.Sprintf("action only can specified as \"add\" or \"delete\", not \"%s\"", action))
 		return
 	}
-	if *host == "" {
+	if host == "" {
 		return
 	}
 
 	if w, err := GetHostWriter(); err != nil {
 		fmt.Println(err)
 	} else {
-		if err := w.Write(*ip, *host, *action); err != nil {
+		if err := w.Write(ip, host, action); err != nil {
 			fmt.Println("error occurred!!!", err)
 		}
 	}
